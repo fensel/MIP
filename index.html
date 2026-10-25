@@ -4,123 +4,350 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minimal Interoperability Profiles</title>
+    <meta name="description" content="Minimal Interoperability Profiles (MIPs): semantic interoperability across domains." />
     <style>
       :root {
-        --bg: #f5f8f4;
+        --bg: #f5f8f3;
+        --bg-strong: #edf4ee;
         --panel: #ffffff;
-        --ink: #1e2a2f;
-        --muted: #4f5d63;
-        --accent: #2d6a4f;
-        --accent-soft: #e7f3ec;
-        --rule: #d9e4dd;
+        --ink: #17242a;
+        --muted: #40565f;
+        --accent: #1d5c47;
+        --accent-strong: #123d2f;
+        --accent-soft: #edf7f1;
+        --line: #dfeae2;
+        --shadow: rgba(18, 42, 31, 0.08);
       }
 
       * { box-sizing: border-box; }
 
+      html { scroll-behavior: smooth; }
+
       body {
         margin: 0;
         font-family: Arial, Helvetica, sans-serif;
-        background: var(--bg);
+        background: linear-gradient(180deg, #f5f8f3 0%, #eef5f0 100%);
         color: var(--ink);
         line-height: 1.7;
       }
 
+      a { color: inherit; text-decoration: none; }
+
       .container {
-        max-width: 1050px;
+        width: min(1160px, calc(100% - 32px));
         margin: 0 auto;
-        padding: 48px 24px 72px;
       }
 
       header {
-        padding: 32px 0 20px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.4));
+        backdrop-filter: blur(4px);
+        border-bottom: 1px solid var(--line);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+      }
+
+      .brand {
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        font-size: 1.1rem;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .nav-links a:hover { color: var(--accent); }
+
+      .button {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 999px;
+        font-weight: 700;
+        transition: 0.2s ease;
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: white;
+        box-shadow: 0 10px 24px rgba(29, 92, 71, 0.16);
+      }
+
+      .button.primary:hover {
+        background: var(--accent-strong);
+      }
+
+      .button.secondary {
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.6);
+        color: var(--ink);
+      }
+
+      .hero {
+        padding: 72px 0 40px;
+      }
+
+      .hero-inner {
+        display: grid;
+        grid-template-columns: 1.35fr 0.9fr;
+        gap: 32px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border: 1px solid #d7ebdf;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
 
       h1 {
-        margin: 0;
-        font-size: clamp(2.2rem, 3vw, 3.3rem);
-        line-height: 1.12;
-        letter-spacing: -0.04em;
-        font-weight: 700;
+        margin: 18px 0 14px;
+        font-size: clamp(2.7rem, 5vw, 5rem);
+        line-height: 0.98;
+        letter-spacing: -0.07em;
       }
 
       .subtitle {
-        margin-top: 14px;
-        font-size: clamp(1.1rem, 1.5vw, 1.55rem);
+        font-size: clamp(1.2rem, 2vw, 1.7rem);
         color: var(--muted);
         font-style: italic;
+        margin-bottom: 24px;
+      }
+
+      .cta-row {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .hero-card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 18px 42px var(--shadow);
+      }
+
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+        gap: 14px;
+        margin-top: 20px;
+      }
+
+      .mini-item {
+        background: #f8faf8;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px 12px;
+      }
+
+      .mini-item strong {
+        display: block;
+        font-size: 1.25rem;
+        color: var(--accent);
+        margin-bottom: 4px;
       }
 
       main {
-        background: var(--panel);
-        border: 1px solid var(--rule);
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(20, 32, 27, 0.04);
-        padding: 28px 28px 12px;
+        padding-bottom: 64px;
       }
 
       section {
-        padding: 16px 0 8px;
+        padding: 36px 0;
+      }
+
+      .section-shell {
+        background: rgba(255,255,255,0.62);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 28px 28px 18px;
       }
 
       h2 {
-        margin: 0 0 12px;
-        font-size: clamp(1.4rem, 2vw, 2rem);
-        line-height: 1.2;
+        margin: 0 0 16px;
+        font-size: clamp(1.9rem, 2.4vw, 2.7rem);
+        line-height: 1.1;
+        letter-spacing: -0.05em;
         color: var(--accent);
       }
 
       p {
         margin: 0 0 1em;
-        font-size: 1.05rem;
+        font-size: 1.06rem;
+        color: var(--ink);
       }
 
-      .lead {
-        font-size: 1.12rem;
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
       }
 
-      @media (max-width: 640px) {
-        main {
-          padding: 22px 18px 8px;
+      .feature {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 20px;
+      }
+
+      .feature h3 {
+        margin: 0 0 10px;
+        font-size: 1.15rem;
+        color: var(--accent-strong);
+      }
+
+      .notice {
+        margin-top: 10px;
+        padding: 16px 18px;
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+        border-radius: 10px;
+        color: var(--ink);
+      }
+
+      @media (max-width: 900px) {
+        .hero-inner,
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-links {
+          display: none;
         }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <header>
-        <h1>Minimal Interoperability Profiles</h1>
-        <div class="subtitle">Semantics of scale for interoperability across domains.</div>
-      </header>
+    <header>
+      <div class="container nav">
+        <div class="brand">MIP</div>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#what">What</a>
+          <a href="#why">Why</a>
+          <a href="#how">How</a>
+          <a href="#who">Who</a>
+        </nav>
+      </div>
+    </header>
 
-      <main>
-        <section>
-          <h2>What?</h2>
-          <p class="lead">
-            The vision of Minimal Interoperability Profiles (MIPs) is to make semantic interoperability practical, scalable, and accessible. MIPs define the smallest ontology-based semantic model required to enable meaningful data exchange and integration across domains. Rather than aiming to comprehensively model an entire domain, a MIP provides a lightweight starting point (10-15 classes and properties connecting at least 2 domains) that captures the concepts, relationships, and metadata needed for the most common interoperability scenarios. As an example, an illustration of the encoded MIP example – for food and health domains - is presented in the Appendix, where the 1st image illustrates its possible ontology schema. Whenever possible, MIPs reuse established domain ontologies and Semantic Web standards (RDF/S, OWL, etc.), while allowing new ontology items to be developed where they are missing. Data and metadata that conform to a MIP can be represented as interoperable knowledge graphs (see a visualisation of such example graph in the 2nd image of the Appendix), providing a machine-understandable semantic layer for FAIR and AI-ready data.
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <span class="eyebrow">Repository</span>
+          <h1>Minimal Interoperability Profiles</h1>
+          <div class="subtitle">Semantics of scale for interoperability across domains.</div>
+          <div class="cta-row">
+            <a class="button primary" href="#what">Explore the vision</a>
+            <a class="button secondary" href="https://github.com/fensel/MIP" target="_blank" rel="noreferrer">View on GitHub</a>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <strong style="display:block; font-size:1.05rem; color:var(--accent); margin-bottom: 8px;">MIP in brief</strong>
+          <p style="margin:0; font-size:1.02rem;">
+            Lightweight ontology-based semantic models that enable meaningful data exchange across domains while remaining practical, scalable, and accessible.
           </p>
-        </section>
+          <div class="mini-grid">
+            <div class="mini-item"><strong>10–15</strong> core classes/properties</div>
+            <div class="mini-item"><strong>2+</strong> domains connected</div>
+            <div class="mini-item"><strong>FAIR</strong> by design</div>
+            <div class="mini-item"><strong>AI-ready</strong> semantics</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <section>
+    <main class="container">
+      <section id="what">
+        <div class="section-shell">
+          <h2>What?</h2>
+          <p>
+            The vision of Minimal Interoperability Profiles (MIPs) is to make semantic interoperability practical, scalable, and accessible. MIPs define the smallest ontology-based semantic model required to enable meaningful data exchange and integration across domains. Rather than aiming to comprehensively model an entire domain, a MIP provides a lightweight starting point (10–15 classes and properties connecting at least 2 domains) that captures the concepts, relationships, and metadata needed for the most common interoperability scenarios.
+          </p>
+          <p>
+            As an example, an illustration of the encoded MIP example – for food and health domains – is presented in the Appendix, where the 1st image illustrates its possible ontology schema. Whenever possible, MIPs reuse established domain ontologies and Semantic Web standards (RDF/S, OWL, etc.), while allowing new ontology items to be developed where they are missing. Data and metadata that conform to a MIP can be represented as interoperable knowledge graphs, providing a machine-understandable semantic layer for FAIR and AI-ready data.
+          </p>
+        </div>
+      </section>
+
+      <section id="why">
+        <div class="section-shell">
           <h2>Why?</h2>
           <p>
-            Many of today's scientific and societal challenges require combining data across disciplines that have evolved independently using different terminologies, data models, and standards. At WUR, this need spans food and health, agriculture, biodiversity, environmental monitoring, climate adaptation, water management, and the circular bioeconomy, where answering complex research questions increasingly depends on integrating diverse datasets. These challenges are equally central to individual domains (e.g. plant physiology research may need data about various plants’ characteristics, and also about climate and soil) and to related cross-domain visions (such as One Health for health, food, water, energy and environment sectors) and European and international data spaces, including the Common European Agricultural Data Space (CEADS), where semantic interoperability is essential for secure and meaningful data sharing across organizations and sectors. Existing ontologies and interoperability standards provide rich semantic foundations but are often too extensive or complex for rapid adoption. MIPs lower this barrier by offering a common semantic entry point that enables communities to begin sharing interoperable data quickly, while allowing more detailed semantic models to be incorporated incrementally as requirements evolve.
+            Many of today's scientific and societal challenges require combining data across disciplines that have evolved independently using different terminologies, data models, and standards. At WUR, this need spans food and health, agriculture, biodiversity, environmental monitoring, climate adaptation, water management, and the circular bioeconomy, where answering complex research questions increasingly depends on integrating diverse datasets.
           </p>
-        </section>
+          <p>
+            Existing ontologies and interoperability standards provide rich semantic foundations but are often too extensive or complex for rapid adoption. MIPs lower this barrier by offering a common semantic entry point that enables communities to begin sharing interoperable data quickly, while allowing more detailed semantic models to be incorporated incrementally as requirements evolve.
+          </p>
+        </div>
+      </section>
 
-        <section>
+      <section id="how">
+        <div class="section-shell">
           <h2>How?</h2>
           <p>
-            Our research develops the methodologies, ontology design patterns, engineering tools, and governance approaches needed to design, validate, implement, and maintain MIPs and MIP-compliant knowledge graphs. The approach combines ontology engineering, Linked Data, knowledge graph technologies, ontology alignment, SHACL-based validation, and AI-assisted semantic engineering to identify the minimum shared semantics needed for interoperability. The resulting MIPs act as semantic application profiles that address the most common data exchange scenarios, while remaining compatible with existing ontologies and extensible towards richer domain models. This makes them particularly suitable for interdisciplinary research, federated data infrastructures, and data spaces, where organizations need practical interoperability without first harmonizing every aspect of their information models.
+            Our research develops the methodologies, ontology design patterns, engineering tools, and governance approaches needed to design, validate, implement, and maintain MIPs and MIP-compliant knowledge graphs. The approach combines ontology engineering, Linked Data, knowledge graph technologies, ontology alignment, SHACL-based validation, and AI-assisted semantic engineering to identify the minimum shared semantics needed for interoperability.
           </p>
-        </section>
+          <p>
+            The resulting MIPs act as semantic application profiles that address the most common data exchange scenarios, while remaining compatible with existing ontologies and extensible towards richer domain models. This makes them particularly suitable for interdisciplinary research, federated data infrastructures, and data spaces, where organizations need practical interoperability without first harmonizing every aspect of their information models.
+          </p>
+        </div>
+      </section>
 
-        <section>
+      <section id="who">
+        <div class="section-shell">
           <h2>For whom and by whom?</h2>
           <p>
-            This research is intended for domain scientists, knowledge engineers, data stewards, research infrastructures, public authorities, and industry partners seeking an accessible path to interoperable, reusable, and AI-ready data. At WUR, it contributes to strengthening interdisciplinary research by providing a common semantic foundation across research domains and supporting FAIR-by-design data infrastructures and data spaces such as CEADS. The long-term ambition is to establish MIPs as a reusable semantic engineering methodology that enables research communities to rapidly bootstrap semantic interoperability, accelerate the creation of interoperable knowledge graphs (even with minimal technical knowledge), and provide a practical foundation for trustworthy AI and data-driven scientific discovery.
+            This research is intended for domain scientists, knowledge engineers, data stewards, research infrastructures, public authorities, and industry partners seeking an accessible path to interoperable, reusable, and AI-ready data. At WUR, it contributes to strengthening interdisciplinary research by providing a common semantic foundation across research domains and supporting FAIR-by-design data infrastructures and data spaces such as CEADS.
           </p>
-        </section>
-      </main>
-    </div>
+          <p>
+            The long-term ambition is to establish MIPs as a reusable semantic engineering methodology that enables research communities to rapidly bootstrap semantic interoperability, accelerate the creation of interoperable knowledge graphs, and provide a practical foundation for trustworthy AI and data-driven scientific discovery.
+          </p>
+          <div class="notice">
+            MIPs are built to help communities share data meaningfully across domains without needing to harmonize every underlying model from day one.
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-shell">
+          <h2>Core focus areas</h2>
+          <div class="feature-grid">
+            <article class="feature">
+              <h3>Semantic interoperability</h3>
+              <p>Designing minimal common semantics to connect otherwise disconnected data ecosystems.</p>
+            </article>
+            <article class="feature">
+              <h3>Knowledge graphs</h3>
+              <p>Encoding interoperable data as FAIR-ready, machine-understandable graph structures.</p>
+            </article>
+            <article class="feature">
+              <h3>Domain integration</h3>
+              <p>Enabling cross-domain exchanges across food, health, environment, biodiversity, and more.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
